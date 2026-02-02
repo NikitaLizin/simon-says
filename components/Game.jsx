@@ -33,8 +33,7 @@ const incorrect = () => {
 async function correct (color)  { 
   document.body.style.backgroundColor = `${color}`; 
   await delay(500); 
-  document.body.style.backgroundColor = "white"; 
-  await delay(500); 
+  document.body.style.backgroundColor = "white";  
 }
 
 function expandSequence (options) {
@@ -57,7 +56,6 @@ function Game () {
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
   const [status,setStatus] = React.useState("countdown"); 
-  const test = React.useRef(null); 
 
   React.useEffect(() => {
   if (status !== "sequence") return;
@@ -92,10 +90,8 @@ function Game () {
     const seqCompare = sequence[lastIndex]; 
 
     if (seqCompare === btnPressed){
-      test.current = true; 
       await correct(btnPressed); 
       setPressed((prev => [...prev,btnPressed]));
-      test.current = null; 
     } else {
       incorrect(); 
       setStatus("gameOver"); 
