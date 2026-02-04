@@ -56,7 +56,7 @@ function Game () {
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
   const [status,setStatus] = React.useState("countdown"); 
-
+  const btnClicked = React.useRef(null); 
   React.useEffect(() => {
   if (status !== "sequence") return;
 
@@ -83,15 +83,20 @@ function Game () {
 
   
   const handleClick = async (btnPressed) => {
-
-    if (status != "start") return; 
+    // make buttons active when game starts.
+    if (status != "start") return;
+    // can only click button when animation finishes. 
+    if (btnClicked.current) return;  
     
+    btnClicked.current = true; 
+
     const lastIndex = pressed.length; 
     const seqCompare = sequence[lastIndex]; 
 
     if (seqCompare === btnPressed){
       await correct(btnPressed); 
       setPressed((prev => [...prev,btnPressed]));
+      btnClicked.current = null; 
     } else {
       incorrect(); 
       setStatus("gameOver"); 
