@@ -11,6 +11,7 @@ colors : {
   #5B7B7A
   #E3655B
   wrong: #AD343E
+  correct: #3F826D
 }
 
 

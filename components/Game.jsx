@@ -55,7 +55,7 @@ function Game () {
     "#3D5A80",
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
-  const [status,setStatus] = React.useState("countdown"); 
+  const [status,setStatus] = React.useState("gameOver"); // default: countdown.  
   const btnClicked = React.useRef(null); 
   React.useEffect(() => {
   if (status !== "sequence") return;
@@ -114,12 +114,14 @@ function Game () {
     <>
       <Header content= {`Level ${level}`} /> 
 
+       <GameOver/> 
+
       { status === "countdown" &&
         <Countdown handleCountDown = {handleCountdown} />
       }    
       <div className="game-container" >
 
-       
+        
 
         { // create buttons for the game. 
           
