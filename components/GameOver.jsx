@@ -36,17 +36,18 @@ function ColorCircle ({color,size,pressed,nextSymbol}){
 }
 
 
-function GameOver () {
 
-  const sequence = ["#C8ADC0", "#FCF6B1","#A9E5BB", "#3D5A80", "#A9E5BB","#3D5A80"]; 
-  const [display,setDisplay] = React.useState(["#C8ADC0",]);
-  const pressed = ["#C8ADC0", "#FCF6B1","#A9E5BB", "#3D5A80","#C8ADC0"];  
+
+function GameOver ({playAgain,sequence,pressed}) {
+  const getFirstColor = (pressed.length < 1)? "Not pressed": pressed[0];  
+  const [display,setDisplay] = React.useState([getFirstColor]);  
 
   const getSymbol = () => {
     const pressedColor = pressed[display.length] ? pressed[display.length] : "Not pressed"; 
     if (display.length < sequence.length) setDisplay((prev => [...prev,pressedColor]))
   }
 
+  
 
   return (
     <div className="gameover-container">
@@ -74,14 +75,14 @@ function GameOver () {
 
       <div className="gameover-btn-container">
         
-        <button className="playAgain-btn gameover-btn"> 
-          <span class="material-icons-round">replay</span>
+        <button className="playAgain-btn gameover-btn" onClick={() => playAgain()} > 
+          <span className="material-icons-round">replay</span>
           Play Again! 
         </button>
 
         <button className="continue-btn gameover-btn">
           Continue!
-          <span class="material-icons-round">arrow_forward</span>
+          <span className="material-icons-round">arrow_forward</span>
         </button>
 
       </div>

@@ -26,8 +26,10 @@ async function sequenceAnimation (seq) {
   }   
 }
 
-const incorrect = () => {
+const incorrect = async () => {
   document.body.style.backgroundColor = "#AD343E"; 
+  await delay(500); 
+  document.body.style.backgroundColor = "white"; 
 }
 
 async function correct (color)  { 
@@ -55,20 +57,21 @@ function Game () {
     "#3D5A80",
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
-  const [status,setStatus] = React.useState("gameOver"); // default: countdown.  
-  const btnClicked = React.useRef(null); 
+  const [status,setStatus] = React.useState("countdown");  
+  const btnClicked = React.useRef(null);
+  
   React.useEffect(() => {
-  if (status !== "sequence") return;
+    if (status !=  "sequence") return; 
 
     const showSequence = async () => {
+      await delay(1000); 
       await sequenceAnimation(sequence);
       setStatus("start");
-    };
-
+    }
+    
     showSequence();
-  }, [status]);
 
-   
+  },[status]);
 
   if (pressed.length === sequence.length) {
     const newColor = expandSequence(buttons);
@@ -78,10 +81,14 @@ function Game () {
     setLevel((prev => prev+1));
   }
 
-  /* showSequence(sequence); */ 
+  const playAgain = () => {
+    setSequence(getStartingSequence(buttons)); 
+    setStatus("countdown");
+    setPressed([]);
+    setLevel(1);
+    btnClicked.current = null; 
+  } 
 
-
-  
   const handleClick = async (btnPressed) => {
     // make buttons active when game starts.
     if (status != "start") return;
@@ -98,7 +105,7 @@ function Game () {
       setPressed((prev => [...prev,btnPressed]));
       btnClicked.current = null; 
     } else {
-      incorrect(); 
+      await incorrect(); 
       setStatus("gameOver"); 
     }
 
@@ -114,8 +121,11 @@ function Game () {
     <>
       <Header content= {`Level ${level}`} /> 
 
-       <GameOver/> 
-
+      { status === "gameOver" &&
+        <GameOver playAgain = {playAgain} sequence={sequence} pressed = {pressed} /> 
+      }
+      
+      
       { status === "countdown" &&
         <Countdown handleCountDown = {handleCountdown} />
       }    

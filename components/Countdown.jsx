@@ -1,20 +1,26 @@
-
+const delay =  ms => (
+  new Promise (resolve => setTimeout(resolve,ms))
+); 
 
 function Countdown ({handleCountDown}) {
 
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState(3);
+  
 
   React.useEffect(() => {
     // Set up the interval
+    
     const intervalId = setInterval(() => {
-      setCount((prev => prev + 1)); // Use functional update for correct state
+      setCount((prev => prev - 1)); // Use functional update for correct state
     }, 1000);
 
-    if (count === 3){
+      
+     
+    if (count === 1){
       clearInterval(intervalId);
       handleCountDown();
-    } 
-
+    }
+    
     // Cleanup function to clear the interval
     return () => {
       clearInterval(intervalId);
