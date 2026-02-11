@@ -74,6 +74,16 @@ function GameOver () {
 
       <div className="gameover-btn-container">
         
+        <button className="playAgain-btn gameover-btn"> 
+          <span class="material-icons-round">replay</span>
+          Play Again! 
+        </button>
+
+        <button className="continue-btn gameover-btn">
+          Continue!
+          <span class="material-icons-round">arrow_forward</span>
+        </button>
+
       </div>
     </div>
   )

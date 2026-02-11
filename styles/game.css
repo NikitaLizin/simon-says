@@ -68,7 +68,7 @@
   height:100%; 
   z-index:2; 
   display:grid; 
-  grid-template-rows:20% 60% 20%;
+  grid-template-rows:20% 50% 30%;
   grid-template-areas: 
   "header"
   "content"
@@ -98,6 +98,49 @@
   width:100%; 
   animation: showSymbol 400ms 600ms ease-in-out forwards; 
 }
+
+.gameover-btn-container{
+  display:flex; 
+  justify-content: center;
+  align-items: start;
+}
+
+.gameover-btn{
+  display:flex; 
+  justify-content: center;
+  align-items: center;
+  padding:10px; 
+  border-radius: 8px;
+  min-width:100px; 
+  background-color: white;
+  font-weight: bold;
+  cursor:pointer;
+  transition:all 50ms ease-in-out;
+  font-size:clamp(0.95rem, 0.9rem + 0.35vw, 1.125rem);
+  background-color: #E1AA36;
+  color:#ECECBB;
+  border:none;  
+}
+
+.playAgain-btn span{
+  margin-right:10px;
+  font-weight: bold;
+}
+
+.continue-btn{
+  margin-left:20px; 
+  
+}
+
+.continue-btn span {
+  margin-left:10px; 
+  font-weight: bold;
+}
+
+.gameover-btn:hover{
+  scale:1.1;
+}
+
 
 @keyframes showSymbol {
  0% {
