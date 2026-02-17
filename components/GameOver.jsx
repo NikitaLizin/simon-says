@@ -6,8 +6,8 @@ function ColorCircle ({color,size,pressed,nextSymbol}){
 
   React.useEffect(() => {
     if (!pressed) return; 
-    else if (pressed === color) setSrc("../assets/correct.svg"); 
-    else setSrc("../assets/false.svg")
+    else if (pressed === color) setSrc("./assets/correct.svg"); 
+    else setSrc("./assets/false.svg");
 
   },[pressed]);
 
