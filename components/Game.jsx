@@ -57,8 +57,10 @@ function Game () {
     "#3D5A80",
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
-  const [status,setStatus] = React.useState("countdown");  
+  const [status,setStatus] = React.useState("countdown");// countdown deafult   
   const btnClicked = React.useRef(null);
+  let timer = true; // controll timer 
+  
   
   React.useEffect(() => {
     if (status !=  "sequence") return; 
@@ -89,18 +91,33 @@ function Game () {
     btnClicked.current = null; 
   } 
 
+  const onTimeExpired = async () => {
+    
+    if (timer){
+      await incorrect(); 
+      setStatus("gameOver");
+
+    } 
+     
+  }
+
   const handleClick = async (btnPressed) => {
+
+    timer = false; // so the timer dont say gameOver when you have pressed a button 
+
     // make buttons active when game starts.
     if (status != "start") return;
     // can only click button when animation finishes. 
-    if (btnClicked.current) return;  
-    
+    if (btnClicked.current) return; 
+
+    timer = false; 
+
     btnClicked.current = true; 
 
     const lastIndex = pressed.length; 
     const seqCompare = sequence[lastIndex]; 
 
-    if (seqCompare === btnPressed){
+    if (seqCompare === btnPressed) {
       await correct(btnPressed); 
       setPressed((prev => [...prev,btnPressed]));
       btnClicked.current = null; 
@@ -120,6 +137,8 @@ function Game () {
   return (
     <>
       <Header content= {`Level ${level}`} /> 
+      {status === "start" && <Timer onTimeExpired={onTimeExpired}   />}
+       
 
       { status === "gameOver" &&
         <GameOver playAgain = {playAgain} sequence={sequence} pressed = {pressed} /> 

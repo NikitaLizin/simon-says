@@ -3,8 +3,6 @@ const root = ReactDOM.createRoot(app);
 
 function Main () {
 
-  
-
  return (
   <div className="main">
     <Game/>
