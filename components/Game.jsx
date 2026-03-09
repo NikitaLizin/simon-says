@@ -57,8 +57,8 @@ function Game () {
     "#3D5A80",
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
-  const [status,setStatus] = React.useState("countdown");// countdown deafult   
-  const btnClicked = React.useRef(null);
+  const [status,setStatus] = React.useState("test");// countdown deafult   
+  let btnClicked = null; 
   let timer = true; // controll timer 
   
   
@@ -93,26 +93,21 @@ function Game () {
 
   const onTimeExpired = async () => {
     
-    if (timer){
+    if (!btnClicked){
       await incorrect(); 
       setStatus("gameOver");
-
     } 
      
   }
 
   const handleClick = async (btnPressed) => {
 
-    timer = false; // so the timer dont say gameOver when you have pressed a button 
-
     // make buttons active when game starts.
     if (status != "start") return;
     // can only click button when animation finishes. 
-    if (btnClicked.current) return; 
+    if (btnClicked) return; 
 
-    timer = false; 
-
-    btnClicked.current = true; 
+    btnClicked = true; // controlls so you cant press the button before all animations and states are changed. 
 
     const lastIndex = pressed.length; 
     const seqCompare = sequence[lastIndex]; 
@@ -120,7 +115,6 @@ function Game () {
     if (seqCompare === btnPressed) {
       await correct(btnPressed); 
       setPressed((prev => [...prev,btnPressed]));
-      btnClicked.current = null; 
     } else {
       await incorrect(); 
       setStatus("gameOver"); 
