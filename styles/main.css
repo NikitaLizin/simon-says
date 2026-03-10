@@ -17,6 +17,7 @@ h1 {
   line-height: 1.2;
   color:#239BA7; 
   text-align: center;
+  content:"hi"; 
 }
 
 h2 {

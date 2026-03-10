@@ -3,6 +3,11 @@ const delay =  ms => (
   new Promise (resolve => setTimeout(resolve,ms))
 ); 
 
+const gameSettings = {
+  timer:false, 
+  fasterSequence:true, 
+}
+
 const getStartingSequence =  (arr) => {
   const sequence = []; 
 
@@ -14,14 +19,14 @@ const getStartingSequence =  (arr) => {
   return sequence; 
 }
 
-async function sequenceAnimation (seq) {
+async function sequenceAnimation (seq,timer) {
   for (let i = 0; i <=  seq.length-1; i++){
     document.body.style.backgroundColor = seq[i]; 
-    await delay(1000);
+    await delay(timer);
 
     document.body.style.backgroundColor = "white";
     // remove delay for the last sequence value. 
-    if (i !=  seq.length-1) await delay(1000);
+    if (i !=  seq.length-1) await delay(timer);
     
   }   
 }
@@ -65,14 +70,18 @@ function Game () {
   const [status,setStatus] = React.useState("countdown");// countdown deafult  
   const headerContent = setHeaderContent(status,level); 
   let btnClicked = null; 
+  const sequenceTimer = gameSettings.fasterSequence ? 700 : 1000; 
+
+
   
+
   
   React.useEffect(() => {
     if (status !=  "sequence") return; 
 
     const showSequence = async () => {
       await delay(1000); 
-      await sequenceAnimation(sequence);
+      await sequenceAnimation(sequence,sequenceTimer);
       setStatus("start");
     }
     
@@ -131,6 +140,9 @@ function Game () {
     await delay(1000); 
     setStatus("sequence");
   }
+
+
+  const timer = gameSettings.timer ? <Timer onTimeExpired={onTimeExpired}/> : null; 
   
 
   return (
@@ -138,7 +150,7 @@ function Game () {
 
       { headerContent && <Header content = {headerContent}/> } 
        
-      {status === "start" && <Timer onTimeExpired={onTimeExpired}   />}
+      {status === "start" && timer}
        
 
       { status === "gameOver" &&
@@ -149,9 +161,6 @@ function Game () {
       { status === "countdown" &&
         <Countdown handleCountDown = {handleCountdown} />
       }    
-
-      
-   
       
       <div className="game-container">
 
