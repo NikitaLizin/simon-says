@@ -13,9 +13,10 @@ body {
 }
 
 h1 {
-  font-size: clamp(28px, 4vw, 50px);
+  font-size: clamp(28px, 3vw, 50px);
   line-height: 1.2;
-  color: #E1AA36;
+  color:#239BA7; 
+  text-align: center;
 }
 
 h2 {

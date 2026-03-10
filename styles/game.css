@@ -12,13 +12,12 @@
 
 .game-button{
   border-radius:50%; 
-  height:100%;   
+  height:60%;   
   max-height:150px; 
   aspect-ratio: 1/1;
-  border:none; 
+  border:0.6px solid black; 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   cursor: pointer; 
-  
 }
 
 .game-button-container{
@@ -159,6 +158,33 @@
   border-radius:4px; 
   background-color:#239BA7;  
   transform-origin: left;
+}
+
+.text{
+  grid-area:header; 
+  position: absolute;
+  color:#239BA7; 
+  font-weight: bolder;
+  font-size: clamp(22px, 10vw, 45px);
+  place-self:center; 
+  z-index:3; 
+  /* animation: showText 1s ease-in-out    forwards; */
+}
+
+
+@keyframes showText {
+  0%{
+    top:0%; 
+    scale:0.5
+  }
+  50%{
+    scale:1; 
+    top:50%; 
+    transform: translateY(-50%);
+  }
+  100%{
+    scale:0; 
+  }
 }
 
 

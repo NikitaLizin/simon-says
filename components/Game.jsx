@@ -44,12 +44,17 @@ function expandSequence (options) {
   return options[randomNr];
 }
 
+function setHeaderContent(status,level) {
+  if (status === "sequence") return "Memorize The sequence"; 
+  else if (status === "start") return `Level ${level}`; 
+  else return null; 
+}
 
 
 function Game () {
 
   const [level,setLevel] = React.useState(1); 
-  const [pressed,setPressed] = React.useState([]);
+  const [pressed,setPressed] = React.useState([]); 
   const [buttons,setButtons] = React.useState([
     "#A9E5BB",
     "#FCF6B1",
@@ -57,9 +62,9 @@ function Game () {
     "#3D5A80",
   ]);
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
-  const [status,setStatus] = React.useState("test");// countdown deafult   
+  const [status,setStatus] = React.useState("countdown");// countdown deafult  
+  const headerContent = setHeaderContent(status,level); 
   let btnClicked = null; 
-  let timer = true; // controll timer 
   
   
   React.useEffect(() => {
@@ -104,8 +109,8 @@ function Game () {
 
     // make buttons active when game starts.
     if (status != "start") return;
-    // can only click button when animation finishes. 
-    if (btnClicked) return; 
+     
+    if (btnClicked) return; // can only click button when animation finishes.
 
     btnClicked = true; // controlls so you cant press the button before all animations and states are changed. 
 
@@ -130,7 +135,9 @@ function Game () {
 
   return (
     <>
-      <Header content= {`Level ${level}`} /> 
+
+      { headerContent && <Header content = {headerContent}/> } 
+       
       {status === "start" && <Timer onTimeExpired={onTimeExpired}   />}
        
 
@@ -142,9 +149,13 @@ function Game () {
       { status === "countdown" &&
         <Countdown handleCountDown = {handleCountdown} />
       }    
-      <div className="game-container" >
 
-        
+      
+   
+      
+      <div className="game-container">
+
+         
 
         { // create buttons for the game. 
           
