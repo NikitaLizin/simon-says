@@ -30,7 +30,7 @@
 
 .countdown-container{
   position:absolute; 
-  height:100%; 
+  height:100dvh; 
   width:100%; 
   background-color:rgb(35, 155, 167 ); 
   z-index: 2; 
@@ -38,24 +38,24 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* background-color:aqua; */
 }
 
 .countdown-text{
   color:white; 
-  margin-bottom:20px; 
   font-weight: bolder;
-  color:#E1AA36; 
+  font-size: clamp(28px, 3vw, 35px); 
+  color:#ECECBB; 
 }
 
-.countdown-h3{
+.countdown-h2{
   font-size: clamp(1rem, 30cqi, 4rem);
   color:#ECECBB; 
 }
 
 .number-container{
-  width:200px; 
-  height:200px; 
+  width:160px; 
+  height:160px; 
+  margin-top:20px; 
   border-radius:50%; 
   background-color:#E1AA36; 
   display:flex; 
@@ -160,16 +160,7 @@
   transform-origin: left;
 }
 
-.text{
-  grid-area:header; 
-  position: absolute;
-  color:#239BA7; 
-  font-weight: bolder;
-  font-size: clamp(22px, 10vw, 45px);
-  place-self:center; 
-  z-index:3; 
-  /* animation: showText 1s ease-in-out    forwards; */
-}
+
 
 
 @keyframes showText {

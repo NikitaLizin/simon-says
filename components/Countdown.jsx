@@ -29,9 +29,9 @@ function Countdown ({handleCountDown}) {
 
   return(
     <div className="countdown-container">
-      <h2 className="countdown-text"> Prepare yourself </h2>
+      <h3 className="countdown-text"> Prepare yourself! </h3>
       <div className="number-container">
-        <h3 className="countdown-h3"> {count} </h3>
+        <h2 className="countdown-h2"> {count} </h2>
       </div>
     </div>
   ) 
