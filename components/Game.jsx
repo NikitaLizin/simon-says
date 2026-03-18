@@ -19,17 +19,7 @@ const getStartingSequence =  (arr) => {
   return sequence; 
 }
 
-async function sequenceAnimation (seq,timer) {
-  for (let i = 0; i <=  seq.length-1; i++){
-    document.body.style.backgroundColor = seq[i]; 
-    await delay(timer);
 
-    document.body.style.backgroundColor = "white";
-    // remove delay for the last sequence value. 
-    if (i !=  seq.length-1) await delay(timer);
-    
-  }   
-}
 
 const incorrect = async () => {
   document.body.style.backgroundColor = "#AD343E"; 
@@ -37,11 +27,6 @@ const incorrect = async () => {
   document.body.style.backgroundColor = "white"; 
 }
 
-async function correct (color)  { 
-  document.body.style.backgroundColor = `${color}`; 
-  await delay(500); 
-  document.body.style.backgroundColor = "white";  
-}
 
 function expandSequence (options) {
   const length = options.length; 
@@ -65,29 +50,41 @@ function Game () {
     "#FCF6B1",
     "#C8ADC0",
     "#3D5A80",
-  ]);
+  ]); 
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
+  const [activeBtn,setActiveBtn] = React.useState(null); 
   const [status,setStatus] = React.useState("countdown");// countdown deafult  
   const headerContent = setHeaderContent(status,level); 
-  let btnClicked = null; 
-  const sequenceTimer = gameSettings.fasterSequence ? 700 : 1000; 
+  const sequenceTimer = gameSettings.fasterSequence ? 300 : 600; 
 
 
-  
+  React.useEffect (() => {
 
-  
-  React.useEffect(() => {
-    if (status !=  "sequence") return; 
-
-    const showSequence = async () => {
-      await delay(1000); 
-      await sequenceAnimation(sequence,sequenceTimer);
-      setStatus("start");
-    }
+    if (status != "sequence") return; 
     
-    showSequence();
 
-  },[status]);
+    const sequenceAnimation = async () => {
+      await delay(500); 
+      for (let i = 0; i < sequence.length; i++){
+        
+        setActiveBtn(sequence[i]); 
+        await delay(sequenceTimer); 
+
+        setActiveBtn(null); 
+        await delay(250); 
+        
+      }
+
+      setStatus("start"); 
+
+    }
+
+    sequenceAnimation();
+    
+  },[status])
+
+  
+  
 
   if (pressed.length === sequence.length) {
     const newColor = expandSequence(buttons);
@@ -107,7 +104,7 @@ function Game () {
 
   const onTimeExpired = async () => {
     
-    if (!btnClicked){
+    if (!activeBtn){
       await incorrect(); 
       setStatus("gameOver");
     } 
@@ -119,19 +116,19 @@ function Game () {
     // make buttons active when game starts.
     if (status != "start") return;
      
-    if (btnClicked) return; // can only click button when animation finishes.
-
-    btnClicked = true; // controlls so you cant press the button before all animations and states are changed. 
+    if (activeBtn) return; // can only click button when animation finishes.
 
     const lastIndex = pressed.length; 
     const seqCompare = sequence[lastIndex]; 
 
     if (seqCompare === btnPressed) {
-      await correct(btnPressed); 
+      setActiveBtn(btnPressed); 
+      await delay(200); 
+      setActiveBtn(null);  
       setPressed((prev => [...prev,btnPressed]));
-    } else {
-      await incorrect(); 
-      setStatus("gameOver"); 
+      
+    } else { 
+      setStatus("gameOver");
     }
 
   }
@@ -142,7 +139,7 @@ function Game () {
   }
 
 
-  const timer = gameSettings.timer ? <Timer onTimeExpired={onTimeExpired}/> : null; 
+  
   
 
   return (
@@ -150,33 +147,37 @@ function Game () {
 
       { headerContent && <Header content = {headerContent}/> } 
        
-      {status === "start" && timer}
+      {status === "start" && gameSettings.timer &&  <Timer onTimeExpired={onTimeExpired} activeBtn = {activeBtn} /> }
        
 
       { status === "gameOver" &&
         <GameOver playAgain = {playAgain} sequence={sequence} pressed = {pressed} /> 
       }
       
-      
       { status === "countdown" &&
         <Countdown handleCountDown = {handleCountdown} />
       }    
+
+      
       
       <div className="game-container">
 
-         
-
         { // create buttons for the game. 
           
-
-          buttons.map((val) => (
-            <div className="game-button-container" key={`game-button-container${val}`} >
-              <GameButton click = {handleClick} type={val} key ={`gameButton${val}`} /> 
-            </div>
-          ))
+          buttons.map((val) => {
+            
+            return (
+              <GameButton 
+                type={val} 
+                active = {activeBtn === val} 
+                key ={`gameButton${val}`} 
+                click = {handleClick}
+              /> 
+            ) 
+               
+          })
 
         }
-
 
       </div>
     </> 

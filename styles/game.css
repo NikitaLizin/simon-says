@@ -3,11 +3,11 @@
   position: relative;
   width:100%; 
   height:100%;  
-  display:flex;  
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  grid-area: content;
+  display:grid;  
+  grid-template-columns: repeat(2, 50%); 
+  grid-template-rows: repeat(2,50%); 
+  place-items: center;
+  grid-area: content; 
 }
 
 .game-button{
@@ -18,6 +18,13 @@
   border:0.6px solid black; 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   cursor: pointer; 
+  transition:all ease-in 250ms;
+  
+}
+
+.game-button.active {
+  transform: scale(1.2); 
+  filter: brightness(1.1);
 }
 
 .game-button-container{
@@ -158,6 +165,13 @@
   border-radius:4px; 
   background-color:#239BA7;  
   transform-origin: left;
+}
+
+.sequence{
+  width:100%; 
+  height:100%; 
+  position: absolute;
+  z-index: -1; 
 }
 
 @keyframes showSymbol {

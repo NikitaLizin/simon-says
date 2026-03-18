@@ -1,8 +1,9 @@
 
-function Timer ({onTimeExpired}) {
+function Timer ({onTimeExpired,activeBtn}) {
   const ref = React.useRef(null);  
   React.useEffect(() => {
-    if (!ref.current) return; 
+    if (!ref.current) return;
+    
     const element = ref.current;
     
     const animationSettings = [
@@ -19,13 +20,17 @@ function Timer ({onTimeExpired}) {
 
     const animation = element.animate(animationSettings,timing); 
     
+    if (activeBtn) animation.cancel();
+
     animation.onfinish = () => {
       onTimeExpired();  
     }
 
+     
+
     return () => animation.cancel(); 
 
-  },);
+  },[activeBtn]);
 
 
   return(

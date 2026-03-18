@@ -1,6 +1,9 @@
 
 
-function GameButton ({type,click}) {
+function GameButton ({type,click,active}) {  
+
+  
+
 
   const handleClick = (e) => {
     const buttonClicked = e.target.value; 
@@ -8,6 +11,14 @@ function GameButton ({type,click}) {
   }
 
   return (
-    <button className="game-button" onClick={handleClick} value={type} style={{backgroundColor:type}}> </button>
+    <button  
+      className= { 
+        `game-button
+        ${active ? "active": ""}`
+      }  
+      onClick={ click && handleClick} 
+      value={type} 
+      style={{backgroundColor:type}}> 
+    </button>
   )
 }
