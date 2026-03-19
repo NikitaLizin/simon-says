@@ -5,7 +5,9 @@ const delay =  ms => (
 
 const gameSettings = {
   timer:false, 
-  fasterSequence:false, 
+  fasterSequence:false,
+  btnAmount:5,  
+
 }
 
 const getStartingSequence =  (arr) => {
@@ -40,17 +42,44 @@ function setHeaderContent(status,level) {
   else return null; 
 }
 
+const getButtons = (amount) => {
+  switch(amount) {
+    case 4: 
+      return [
+      "#A9E5BB",
+      "#FCF6B1",
+      "#C8ADC0",
+      "#3D5A80",
+      ]
+    break;
+    case 5: 
+      return [
+        "#A9E5BB",
+        "#FCF6B1",
+        "#C8ADC0",
+        "#3D5A80",
+        "#5B7B7A",
+      ]
+    break; 
+    case 6: 
+      return [
+        "#A9E5BB",
+        "#FCF6B1",
+        "#C8ADC0",
+        "#3D5A80",
+        "#5B7B7A",
+        "#E3655B",
+      ]
+    break; 
+  }
+}
+
 
 function Game () {
 
   const [level,setLevel] = React.useState(1); 
   const [pressed,setPressed] = React.useState([]); 
-  const [buttons,setButtons] = React.useState([
-    "#A9E5BB",
-    "#FCF6B1",
-    "#C8ADC0",
-    "#3D5A80",
-  ]); 
+  const [buttons,setButtons] = React.useState(getButtons(gameSettings.btnAmount)); 
   const [sequence, setSequence] = React.useState(getStartingSequence(buttons));
   const [activeBtn,setActiveBtn] = React.useState(null); 
   const [status,setStatus] = React.useState("countdown");// countdown deafult  
