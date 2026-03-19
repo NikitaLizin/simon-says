@@ -5,7 +5,7 @@ const delay =  ms => (
 
 const gameSettings = {
   timer:false, 
-  fasterSequence:true, 
+  fasterSequence:false, 
 }
 
 const getStartingSequence =  (arr) => {
@@ -61,27 +61,37 @@ function Game () {
   React.useEffect (() => {
 
     if (status != "sequence") return; 
-    
+
+    let stop = null; 
 
     const sequenceAnimation = async () => {
       await delay(500); 
       for (let i = 0; i < sequence.length; i++){
-        
+
+        if (stop) return; 
         setActiveBtn(sequence[i]); 
         await delay(sequenceTimer); 
 
+        if (stop) return;
+
         setActiveBtn(null); 
-        await delay(250); 
+        await delay(250);
+         
         
       }
 
-      setStatus("start"); 
-
+      if (stop) return; 
+      else setStatus("start"); 
+       
     }
 
     sequenceAnimation();
     
-  },[status])
+    return () => {
+      stop = true; 
+    }
+
+  },[status]);
 
   
   
